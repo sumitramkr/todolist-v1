@@ -11,11 +11,39 @@ app.get("/", function(req, res) {
     var today = day.getDay();
     var dayJs = "";
 
-    if (today === 0 || today === 6) {
-        dayJs = "Weekned";
-    } else {
-        dayJs = "Weekday";
+    switch (today) {
+        case 0:
+            dayJs = "Sunday";
+            break;
+        
+        case 1:
+            dayJs = "Monday";
+            break;
+
+        case 2:
+            dayJs = "Tuesday";
+            break;
+
+        case 3:
+            dayJs = "Wednesday";
+            break;
+
+        case 4:
+            dayJs = "Thrusday";
+            break;
+
+        case 5:
+            dayJs = "Friday";
+            break;
+
+        case 6:
+            dayJs = "Saturday";
+            break;
+            
+        default:
+            break;
     }
+
     res.render("list", {dayHTML: dayJs});
 });
 
