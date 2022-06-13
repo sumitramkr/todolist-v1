@@ -2,27 +2,35 @@ const express = require("express");
 const app = express();
 
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 
-app.get("/", function(req, res) {
-    var day = new Date();
-    // var today = day.getDay();  //[have to remove as it stores number of weekday and .toLocaleDateString can't change it]
-    var dayJs = "";
+var items = [];
 
-    var options = {
-        weekday: "long",
-        year: "numeric",
-        month: "short",
-        day: "numeric"
-    };
+app.get("/", function (req, res) {
+  var day = new Date();
+  // var today = day.getDay();  //[have to remove as it stores number of weekday and .toLocaleDateString can't change it]
+  var dayJs = "";
 
-    var dayJs = day.toLocaleDateString("en-US", options);
+  var options = {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  };
 
-    res.render("list", {dayHTML: dayJs});
+  var dayJs = day.toLocaleDateString("en-US", options);
+
+  res.render("list", { dayHTML: dayJs, itemHTML: items });
 });
 
-app.listen(4700, function(req, res) {
-    console.log("server is live on port 4700");
+app.post("/", function (req, res) {
+  var item = req.body.item;
+  items.push(item);
+  res.redirect("/");
+});
+
+app.listen(4700, function (req, res) {
+  console.log("server is live on port 4700");
 });
