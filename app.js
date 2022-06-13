@@ -9,6 +9,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 var items = [];
+let works = [];
 
 app.get("/", function (req, res) {
   var day = new Date();
@@ -24,13 +25,24 @@ app.get("/", function (req, res) {
 
   var dayJs = day.toLocaleDateString("en-US", options);
 
-  res.render("list", { dayHTML: dayJs, itemHTML: items });
+  res.render("list", { titleHTML: dayJs, itemHTML: items });
+});
+
+app.get("/work", function (req, res) {
+  res.render("list", { titleHTML: "Work", itemHTML: works });
 });
 
 app.post("/", function (req, res) {
+  //getting post request from form for both pages
   var item = req.body.item_;
-  items.push(item);
-  res.redirect("/");
+
+  if (req.body.listName === "Work") {
+    works.push(item);
+    res.redirect("/work");
+  } else {
+    items.push(item);
+    res.redirect("/");
+  }
 });
 
 app.listen(4700, function (req, res) {
