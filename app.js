@@ -8,41 +8,17 @@ app.set("view engine", "ejs");
 
 app.get("/", function(req, res) {
     var day = new Date();
-    var today = day.getDay();
+    // var today = day.getDay();  //[have to remove as it stores number of weekday and .toLocaleDateString can't change it]
     var dayJs = "";
 
-    switch (today) {
-        case 0:
-            dayJs = "Sunday";
-            break;
-        
-        case 1:
-            dayJs = "Monday";
-            break;
+    var options = {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+    };
 
-        case 2:
-            dayJs = "Tuesday";
-            break;
-
-        case 3:
-            dayJs = "Wednesday";
-            break;
-
-        case 4:
-            dayJs = "Thrusday";
-            break;
-
-        case 5:
-            dayJs = "Friday";
-            break;
-
-        case 6:
-            dayJs = "Saturday";
-            break;
-            
-        default:
-            break;
-    }
+    var dayJs = day.toLocaleDateString("en-US", options);
 
     res.render("list", {dayHTML: dayJs});
 });
